@@ -21,19 +21,10 @@ def max_2_sum(arr)
   return sum
 end
 
-def sum_to_n? arr, n
-  s = Set.new
-  (0..arr.length-1).each do |i|
-    val = n - arr[i]
-    if(s.include? val)
-      return true
-    else
-      s << (arr[i])
-    end
+def sum_to_n?(arr, n)
+    (arr.empty? && n.zero?) || arr.permutation(2).any? { |a, b| a + b == n }
+
   end
-  return false
-  # YOUR CODE HERE
-end
 
 
 # Part 2
@@ -58,6 +49,7 @@ def starts_with_consonant? s
   end
 end
 
+
 def binary_multiple_of_4? s
   return false unless s =~ /^[01]+$/
   s.to_i(2) % 4 == 0
@@ -69,7 +61,12 @@ class BookInStock
   def initialize(isbn, price)
     @isbn = isbn
     @price = price
+    if (isbn.empty? || price <= 0)
+      raise ArgumentError
+    end
   end
+  attr_accessor :isbn
+  attr_accessor :price
   def price_as_string
     "$#{sprintf("%.2f",@price)}"
   end
